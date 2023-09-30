@@ -1,0 +1,53 @@
+<!-- analyze_emotion.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyze Emotion</title>
+    <link rel='stylesheet' type='text/css' href="{% static "/camera.css" %}}"
+</head>
+<body>
+    <h1>Emotion Detection</h1>
+    <video id="camera" autoplay></video>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <script>
+        const video = document.getElementById('camera');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+
+                function captureFrame() {
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const imageData = canvas.toDataURL('image/jpeg');
+
+                    // Send imageData to your Django view for API integration
+                    fetch('/analyze_emotion/', {
+                        method: 'POST',
+                        body: JSON.stringify({ image_data: imageData }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Process emotion analysis results
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Error sending data:', error);
+                    });
+                }
+
+                // Capture frames every N milliseconds
+                setInterval(captureFrame, 1000); // Adjust the interval as needed
+            })
+            .catch(error => {
+                console.error('Error accessing camera:', error);
+            });
+    </script>
+</body>
+</html>
