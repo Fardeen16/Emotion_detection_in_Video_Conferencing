@@ -1,0 +1,168 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Apply basic styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+}
+
+.menu li {
+    margin-right: 20px;
+}
+
+.menu li:last-child {
+    margin-right: 0;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s;
+}
+
+.menu a:hover {
+    color: #ff9900;
+}
+
+/* Hamburger menu styles */
+#nav-toggle {
+    display: none;
+}
+
+.burger-menu {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+    position: absolute;
+    left: 10px;
+}
+
+.burger-menu span {
+    width: 25px;
+    height: 2px;
+    background-color: white;
+    margin: 3px 0;
+    display: block;
+}
+
+/* Responsive styles for navigation */
+@media (max-width: 768px) {
+    .burger-menu {
+        display: flex;
+        position: relative; /* Adjust the position for small screens */
+    }
+
+    .menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        z-index: 1;
+    }
+
+    .menu.active {
+        display: flex;
+    }
+
+    .menu li {
+        margin: 0;
+        text-align: center;
+        padding: 10px 0;
+    }
+}
+
+.monitor-emotions {
+    text-align: center;
+    color: #ff9900;
+    font-size: 28px;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+    margin: 20px auto;
+}
+
+/* Center the carousel and set its width to 90% */
+.carousel-container {
+    overflow: hidden;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* "Get Started" button styles */
+.get-started-button {
+    background-color: #ff9900;
+    text-decoration: none;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 25px;
+    cursor: pointer;
+    border-radius: 35px;
+    margin-top: 20px;
+    display: block;
+    margin: 20px auto;
+    transition: background-color 0.3s;
+}
+
+.get-started-button:hover {
+    background-color: #ff6600;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 1; /* Ensure the footer is above other elements */
+}

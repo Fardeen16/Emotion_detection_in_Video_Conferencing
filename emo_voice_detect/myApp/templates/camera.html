@@ -10,34 +10,83 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="{% static 'js/face-api.min.js' %}"></script>
-    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/basestyles.css' %}">
 </head>
 <style>
     body {
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    .container {
+        display: flex;
+        align-items: flex-start;
+        padding: 30px;
+    }
+
+    video {
+        width: 65%;
+        height: auto;
+    }
+
+    #results {
+        font-size: 24px;
+        color: #333;
+        width: 40%;
+        padding: 20px;
+        margin:auto
     }
 
     canvas {
-      position: absolute;
+        position: absolute;
+        top: auto;
+        left: 0;
     }
-  </style>
+    
+    #expression {
+        font-size: 48px;
+        margin-bottom: 10px;
+        margin-right: 0px;
+    }
+
+    #suggestion {
+        font-size: 30px;
+    }
+</style>
 <body>
+    <header>
+        <nav>
+            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white;">SentiMatch</a></div>
+            <input type="checkbox" id="nav-toggle">
+            <label for="nav-toggle" class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'camera_input' %}">Camera</a></li>
+            </ul>
+        </nav>
+    </header>
     
-    <video id="video" width="720" height="560" autoplay muted></video>
-    {% comment %} <canvas id="overlay" width="640" height="480"></canvas> {% endcomment %}
-    {% comment %} <div>
-        <button id="startButton">Start Recognition</button>
-    </div> {% endcomment %}
-    
+    <div class="container">
+        <video id="video" width="720" height="560" autoplay muted style="transform: scaleX(-1)"></video>
+        <div id="results">
+            <div id="expression"></div>
+            <div id="suggestion"></div>
+        </div>
+        <canvas id="overlay"></canvas>
+    </div>
+    <footer>
+        &copy; 2023 Emotion Detector
+    </footer>
     
     <script>
         const video = document.getElementById('video')
+        const canvas = document.getElementById('overlay');
+        const expressionDiv = document.getElementById('expression')
+        const suggestionDiv = document.getElementById('suggestion')
 
         Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri('/static/js/models'),
@@ -55,8 +104,6 @@
         }
 
         video.addEventListener('play', () => {
-            const canvas = faceapi.createCanvasFromMedia(video)
-            document.body.append(canvas)
             const displaySize = { width: video.width, height: video.height }
             faceapi.matchDimensions(canvas, displaySize)
                 setInterval(async () => {
@@ -64,10 +111,61 @@
                     const resizedDetections = faceapi.resizeResults(detections, displaySize)
                     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
                     faceapi.draw.drawDetections(canvas, resizedDetections)
-                    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
-                    faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
+                    
+                    // Get the dominant face expression
+                    const expressions = resizedDetections[0]?.expressions || {};
+                    const dominantExpression = Object.keys(expressions).reduce((a, b) => expressions[a] > expressions[b] ? a : b);
+
+                    // Display the dominant expression and suggestion
+                    expressionDiv.textContent = `expression: ${dominantExpression}`;
+                    expressionDiv.style.color = getExpressionColor(dominantExpression);
+                    suggestionDiv.textContent = getExpressionSuggestion(dominantExpression);
                 }, 100)
             })
+
+        // Function to get the color based on the detected expression
+        function getExpressionColor(expression) {
+            switch (expression) {
+                case 'neutral':
+                    return 'grey';
+                case 'happy':
+                    return 'orange';
+                case 'sad':
+                    return 'blue';
+                case 'angry':
+                    return 'red';
+                case 'surprised':
+                    return 'green';
+                case 'disgusted':
+                    return 'purple';
+                case 'fearful':
+                    return 'darkred';
+                default:
+                    return 'black'; // Default color for unknown expressions
+            }
+        }
+
+        function getExpressionSuggestion(expression) {
+            // Add your suggestions based on the detected expression here
+            switch (expression) {
+                case 'neutral':
+                    return 'You look calm and composed!';
+                case 'happy':
+                    return 'Keep smiling, it suits you!';
+                case 'sad':
+                    return 'Cheer up! Things will get better.';
+                case 'angry':
+                    return 'Take a deep breath and stay calm.';
+                case 'surprised':
+                    return 'Wow, you look surprised!';
+                case 'disgusted':
+                    return 'You seem disgusted. Is everything okay?';
+                case 'fearful':
+                    return 'Take a deep breath and stay strong.';
+                default:
+                    return '';
+            }
+        }
     </script>
     
 </body>

@@ -1,1 +1,63 @@
-<h1>bonjour</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/basestyles.css' %}">
+    <title>SentiMatch</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white;">SentiMatch</a></div>
+            <input type="checkbox" id="nav-toggle">
+            <label for="nav-toggle" class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'camera_input' %}">Camera</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="monitor-emotions">Monitor Your Emotions</div>
+
+    <div class="carousel-container">
+        <div class="carousel">
+            <img class="carousel-slide" src="{% static 'images/image1.jpg' %}" alt="Image 1">
+            <img class="carousel-slide" src="{% static 'images/image2.jpg' %}" alt="Image 2">
+            <img class="carousel-slide" src="{% static 'images/image3.jpg' %}" alt="Image 3">
+        </div>
+    </div>
+
+    <button class="get-started-button"><a href="{% url 'camera_input' %}" style="text-decoration: none; color: white;">Get Started</a></button>
+
+    <footer>
+        &copy; 2023 Emotion Detector
+    </footer>
+
+    <script>
+        let currentIndex = 0;
+        const carousel = document.querySelector(".carousel");
+        const slides = document.querySelectorAll(".carousel-slide");
+        const totalSlides = slides.length;
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const translateX = currentIndex * -100;
+            carousel.style.transform = `translateX(${translateX}%)`;
+        }
+
+        // Automatically slide to the next image every 4 seconds
+        setInterval(nextSlide, 4000);
+    </script>
+</body>
+</html>
