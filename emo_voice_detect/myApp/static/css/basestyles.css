@@ -22,7 +22,7 @@ header {
 }
 
 nav {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -80,7 +80,7 @@ nav {
 }
 
 /* Responsive styles for navigation */
-@media (max-width: 768px) {
+@media (max-width: 100%) {
     .burger-menu {
         display: flex;
         position: relative; /* Adjust the position for small screens */
@@ -93,7 +93,7 @@ nav {
         top: 50px;
         left: 0;
         width: 100%;
-        background-color: #333;
+        background-color: #44004b;
         z-index: 1;
     }
 
@@ -115,16 +115,17 @@ nav {
     font-weight: bold;
     position: relative;
     z-index: 1;
-    margin: 20px auto;
+    margin: 8% auto;
 }
 
 /* Center the carousel and set its width to 90% */
 .carousel-container {
     overflow: hidden;
     width: 90%;
-    max-width: 1200px;
+    max-width: 100%;
+    height: 100%;
     margin: 20px auto;
-    position: relative;
+    position: absolute;
 }
 
 .carousel {
@@ -160,9 +161,10 @@ nav {
 }
 
 footer {
-    background-color: #333;
+    background-color: #44004b;
     color: white;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px;
+    padding-bottom: 0%;
     z-index: 1; /* Ensure the footer is above other elements */
 }
