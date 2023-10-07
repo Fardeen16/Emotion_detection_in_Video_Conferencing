@@ -19,10 +19,13 @@
         margin: 0;
     }
     header {
-        background-color: #333;
+        background-color: #44004b;
         color: white;
-        padding: 10px 0;
-        text-align: center;
+        padding: 1% 0;
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
     }
 
     header a {
@@ -33,15 +36,15 @@
         display: flex;
         flex-direction: row; /* Display video and results side by side */
         align-items: flex-start;
-        padding: 20px;
+        padding: 1.85%;
         max-width: 100%;
         margin: 0 auto;
     }
 
     video {
-        width: 70%;
-        max-width: 100%;
-        height: auto;
+        width: 60%;
+        max-width: 90%;
+        height: 75%;
         transform: scaleX(-1);
         padding-left: 0%;
     }
@@ -68,10 +71,15 @@
         font-size: 18px;
     }
     footer {
-        background-color: #333;
+        background-color: #44004b;
         color: white;
         text-align: center;
-        padding: 10px 0;
+        padding: 0.8%;
+        padding-bottom: 0.8%;
+        position: sticky;
+        bottom: 0;
+        font-size: 0.75rem;
+        z-index: 1; 
     }
 </style>
 <body>
@@ -79,11 +87,11 @@
         <nav>
             <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white;">SentiMatch</a></div>
             <input type="checkbox" id="nav-toggle">
-            <label for="nav-toggle" class="burger-menu">
+            <!-- <label for="nav-toggle" class="burger-menu">
                 <span></span>
                 <span></span>
                 <span></span>
-            </label>
+            </label> -->
             <ul class="menu">
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'camera_input' %}">Camera</a></li>
