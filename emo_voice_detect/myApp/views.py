@@ -20,6 +20,9 @@ def camera_input(request):
 def analyze_emotion(request):
     return render(request, 'analyze_emotion.html')
 
+# def analysis(request):
+#     return render(request,'analytics.html')
+
 
 class CustomLoginView(LoginView):
     template_name = 'index.html'
@@ -28,6 +31,8 @@ class CustomSignupView(CreateView):
     form_class = UserCreationForm
     template_name = 'index.html'
     success_url = '/login/'
+
+
 
 @csrf_exempt
 def detect_emotion(request):

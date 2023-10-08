@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camera Input</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <script src="../static/js/face-api.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/css/basestyles.css">
 </head>
@@ -140,8 +141,12 @@ nav .menu a {
         <div id="results">
             <div id="expression"></div>
             <div id="suggestion"></div>
+            <div id="analytics"></div>
         </div>
         <canvas id="overlay"></canvas>
+    </div>
+    <div>
+        <button class="get-started-button"><a href="{% url 'login' %}" style="text-decoration: none; color: white;">Get Analytics</a></button>
     </div>
     <footer>
         &copy; 2023 Emotion Detector
@@ -152,6 +157,15 @@ nav .menu a {
         const canvas = document.getElementById('overlay');
         const expressionDiv = document.getElementById('expression');
         const suggestionDiv = document.getElementById('suggestion');
+        const analyticsDiv = document.getElementById('analytics');
+
+        var happy= 0;
+        var sad= 0;
+        var angry= 0;
+        var disgusted= 0;
+        var neutral= 0;
+        var surprised= 0;
+        var fearful= 0;
     
         Promise.all([
             faceapi.nets.tinyFaceDetector.loadFromUri('/static/js/models'),
@@ -200,6 +214,10 @@ nav .menu a {
                     expressionDiv.textContent = `Expression: ${dominantExpression}`;
                     expressionDiv.style.color = getExpressionColor(dominantExpression);
                     suggestionDiv.textContent = getExpressionSuggestion(dominantExpression);
+                    console.log(dominantExpression);
+                    analyticsDiv.textContent = statistics(dominantExpression);
+                    
+                
                 } else {
                     // No faces detected, clear the canvas and display a message
                     expressionDiv.textContent = 'No faces detected';
@@ -253,6 +271,7 @@ nav .menu a {
 
         function getExpressionSuggestion(expression) {
             // Add your suggestions based on the detected expression here
+            
             switch (expression) {
                 case 'neutral':
                     return 'You look calm and composed!';
@@ -271,6 +290,35 @@ nav .menu a {
                 default:
                     return '';
             }
+        }
+        function statistics(dominantExpression){
+
+            switch (dominantExpression) {
+                case 'neutral':
+                    neutral = neutral + 10;
+                case 'happy':
+                    happy = happy+ 10;
+                case 'sad':
+                    sad = sad + 10;
+                case 'angry':
+                    angry = sad+ 10;
+                case 'surprised':
+                    surprised = sad + 10;
+                case 'disgusted':
+                    disgusted = sad + 10;
+                case 'fearful':
+                    fearful = sad + 10;
+                
+                total = happy + sad + neutral + angry + surprised + disgusted + fearful;
+                const output = `happy: ${((happy/total)*100).toFixed(2)}%, sad: ${((sad/total)*100).toFixed(2)}%, \
+                angry: ${((angry/total)*100).toFixed(2)}%, disgusted: ${((disgusted/total)*100).toFixed(2)}%,\
+                neutral: ${((neutral/total)*100).toFixed(2)}%, surprised: ${((surprised/total)*100).toFixed(2)}%,\
+                fearful: ${((fearful/total)*100).toFixed(2)}%`;
+
+                console.log(output);
+                return output;
+            }
+
         }
     </script>
 </body>
