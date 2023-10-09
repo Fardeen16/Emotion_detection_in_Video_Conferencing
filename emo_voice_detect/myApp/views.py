@@ -1,24 +1,38 @@
 from django.shortcuts import render, HttpResponse
-import base64
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from google.cloud import vision_v1p3beta1 as vision
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
+from .forms import CreateUserForm
+
 
 # Create your views here.
 def home(request):
     return render(request, 'base.html')
 
-def login(request):
-    form=UserCreationForm()
+def register(request):
+    form=CreateUserForm()
     if request.method=='POST':
-        form=UserCreationForm(request.POST)
+        form=CreateUserForm(request.POST)
         if form.is_valid():
-            form.save
+            form.save()
     context = {'form':form}
-    return render(request,'index.html',context)
+    return render(request, 'index.html', context)
+
+def login(request):
+    if request.method == "POST":
+        uname = request.POST.get('name')
+        uemail = request.POSt.get('email')
+        upassword1 = request.POST.get('password1')
+        upassword2 = request.POST.get('password2')
+        my_user = User.objects.create_user(uname, uemail, upassword1)
+        my_user.save()
+        print(uname, uemail, upassword2)
+    
+    
+    return render(request, 'index.html')
+
 
 
 def camera_input(request):
@@ -34,7 +48,12 @@ class CustomSignupView(CreateView):
 
 class CustomLoginView(LoginView):
     template_name = 'index.html'
-    
+
+
+# <input type="email" name="email" id="signEmail" placeholder="Email">
+#                         <input type="text" name="name" id="signName" placeholder="Username">
+#                         <input type="password" name="password" id="signPassword" placeholder="Password"><br>
+#                         <input type="submit" value="SignUp">
 # @csrf_exempt
 # def detect_emotion(request):
 #     if request.method == 'POST':

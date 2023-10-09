@@ -22,5 +22,6 @@ urlpatterns = [
     path("", include("myApp.urls")),
     path('camera_input/', views.camera_input, name='camera_input'),
     path('', views.home, name='home'),
-    path('login/', views.login, name="login")
+    #path('login/', views.login, name="login"),
+    #path('register/', views.register, name = "register")
 ]
