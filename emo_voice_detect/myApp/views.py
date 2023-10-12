@@ -33,7 +33,8 @@ def login(request):
     
     return render(request, 'index.html')
 
-
+def stats(request):
+    return render(request, 'stats.html')
 
 def camera_input(request):
     return render(request, 'camera.html')

@@ -8,5 +8,6 @@ urlpatterns = [
     #path('signup/', views.CustomSignupView.as_view(), name='signup_view'),
     path('signup/', views.register, name="login"),
     path('camera_input/', views.camera_input, name="camera_input"),
+    path('stats/', views.stats, name='stats')
     
 ]

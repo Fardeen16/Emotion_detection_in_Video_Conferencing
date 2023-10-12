@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Statistics</title>
+    <link rel="stylesheet" href="../static/css/stats.css" />
+</head>
+
+
+<body>
+    <div id="heading">
+    <h1>Emotion Statistics</h1></div>
+    <div class="container">
+        <div id="piechart" style="width: 1000px; height: 500px;"></div>
+        <div id="results">
+            <div id="emotionStats"></div>
+        </div>
+        
+    </div>
+    
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(calculateEmotionStatistics);
+        // Function to calculate emotion percentages and display statistics
+        function calculateEmotionStatistics() {
+            // Fetch emotion data from localStorage
+            const emotionData = JSON.parse(localStorage.getItem('emotionData')) || {};
+            console.log(emotionData)
+
+            // Calculate percentages and build the HTML content
+            let emotionStatsHtml = '';
+            let statsArray = [['Emotion', 'Percentage']];
+            const total = Object.values(emotionData).reduce((sum, value) => sum + value, 0);
+
+            for (const emotion in emotionData) {
+                if (emotionData.hasOwnProperty(emotion)) {
+                    const count = emotionData[emotion];
+                    const percentage = ((count / total) * 100).toFixed(2);
+                    emotionStatsHtml += `<p>${emotion}: ${percentage}%</p>`;
+                    let temp_array = [emotion, parseInt(percentage)];
+                    statsArray.push(temp_array);
+                    console.log(statsArray)
+                }
+            }
+            var data = google.visualization.arrayToDataTable(statsArray);
+
+            var options = {
+                title: 'Your Total Activity'
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+
+            // Display the statistics in the "emotionStats" div
+            const emotionStatsDiv = document.getElementById('emotionStats');
+            emotionStatsDiv.innerHTML = emotionStatsHtml;
+        }
+
+        // Call the function to calculate and display statistics
+        calculateEmotionStatistics();
+    </script>
+</body>
+
+</html>
+

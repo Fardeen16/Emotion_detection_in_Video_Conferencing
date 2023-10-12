@@ -140,6 +140,8 @@ nav .menu a {
         <div id="results">
             <div id="expression"></div>
             <div id="suggestion"></div>
+            <div id="analytics"></div>
+            <button class="get-started-button"><a href="{% url 'stats' %}" style="text-decoration: none; color: white;">View Stats</a></button>
         </div>
         <canvas id="overlay"></canvas>
     </div>
@@ -152,6 +154,16 @@ nav .menu a {
         const canvas = document.getElementById('overlay');
         const expressionDiv = document.getElementById('expression');
         const suggestionDiv = document.getElementById('suggestion');
+        const analyticsDiv = document.getElementById('analytics');
+        
+
+        var happy= 0;
+        var sad= 0;
+        var angry= 0;
+        var disgusted= 0;
+        var neutral= 0;
+        var surprised= 0;
+        var fearful= 0;
     
         Promise.all([
             faceapi.nets.tinyFaceDetector.loadFromUri('/static/js/models'),
@@ -194,20 +206,33 @@ nav .menu a {
                     const expressions = resizedDetections[0]?.expressions || {};
 
                     // Determine the dominant expression
+                    //console.log('expression arrray', expressions)
                     const dominantExpression = getDominantExpression(expressions);
+
 
                     // Display the detected expression
                     expressionDiv.textContent = `Expression: ${dominantExpression}`;
                     expressionDiv.style.color = getExpressionColor(dominantExpression);
                     suggestionDiv.textContent = getExpressionSuggestion(dominantExpression);
+                    console.log(dominantExpression);
+                    analyticsDiv.textContent = statistics(dominantExpression);
+                    
                 } else {
                     // No faces detected, clear the canvas and display a message
                     expressionDiv.textContent = 'No faces detected';
                     expressionDiv.style.color = 'black';
                     suggestionDiv.textContent = '';
                 }
+                //const viewStatsButton = document.getElementById('viewStatsButton');
+                //viewStatsButton.addEventListener('click', redirectToStatsPage);
+
+                
             }, 100);
         });
+
+        function redirectToStatsPage() {
+            window.location.href = '/stats'; // Change this URL to the correct path
+        }
 
         // Function to get the dominant expression
         function getDominantExpression(expressions) {
@@ -272,6 +297,56 @@ nav .menu a {
                     return '';
             }
         }
+        function statistics(dominantExpression) {
+            // Update the emotion counters
+            switch (dominantExpression) {
+                case 'neutral':
+                    neutral += 10;
+                    break;
+                case 'happy':
+                    happy += 10;
+                    break;
+                case 'sad':
+                    sad += 10;
+                    break;
+                case 'angry':
+                    angry += 10
+                    break;
+                case 'surprised':
+                    surprised += 10
+                    break;
+                case 'disgusted':
+                    disgusted += 10
+                    break;
+                case 'fearful':
+                    fearful += 10
+                    break;
+            }
+        
+            // Calculate total and store emotion data in localStorage
+            total = happy + sad + neutral + angry + surprised + disgusted + fearful;
+            const emotionData = {
+                happy,
+                sad,
+                angry,
+                disgusted,
+                neutral,
+                surprised,
+                fearful,
+            };
+            
+            // Store emotion data in localStorage
+            localStorage.setItem('emotionData', JSON.stringify(emotionData));
+        
+            // Calculate percentages and return output
+            const output = `happy: ${((happy / total) * 100).toFixed(2)}%, sad: ${((sad / total) * 100).toFixed(2)}%, \
+                angry: ${((angry / total) * 100).toFixed(2)}%, disgusted: ${((disgusted / total) * 100).toFixed(2)}%, \
+                neutral: ${((neutral / total) * 100).toFixed(2)}%, surprised: ${((surprised / total) * 100).toFixed(2)}%, \
+                fearful: ${((fearful / total) * 100).toFixed(2)}%`;
+        
+            return output;
+        }
+        
     </script>
 </body>
 </html>
