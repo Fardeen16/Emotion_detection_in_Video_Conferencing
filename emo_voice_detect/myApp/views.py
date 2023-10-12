@@ -1,11 +1,12 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from .forms import CreateUserForm
-
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -17,23 +18,29 @@ def register(request):
         form=CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + user) 
+            return redirect('login')
     context = {'form':form}
-    return render(request, 'index.html', context)
+    return render(request, 'register.html', context)
 
-def login(request):
+def loginPage(request):
     if request.method == "POST":
-        uname = request.POST.get('name')
-        uemail = request.POSt.get('email')
-        upassword1 = request.POST.get('password1')
-        upassword2 = request.POST.get('password2')
-        my_user = User.objects.create_user(uname, uemail, upassword1)
-        my_user.save()
-        print(uname, uemail, upassword2)
-    
-    
-    return render(request, 'index.html')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            redirect('camera_input')
+        else:
+            messages.info(request, "Username or password is incorrect")
+            
+    context = {}
+    return render(request, 'login.html', context)
 
-
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
 
 def camera_input(request):
     return render(request, 'camera.html')
