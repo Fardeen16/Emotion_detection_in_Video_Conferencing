@@ -37,9 +37,13 @@ def register(request):
     if request.method=='POST':
         form=CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user) 
+            user = form.save()
+            user.is_superuser = True
+            user.is_staff = True
+            user.save()
+            #form.save()
+            #user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + user.username) #else its just user
             return redirect('login')
     context = {'form':form}
     return render(request, 'register.html', context)

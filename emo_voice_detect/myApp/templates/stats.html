@@ -6,31 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotion Statistics</title>
     <link rel="stylesheet" href="../static/css/stats.css" />
+    <link rel="stylesheet" href="../static/css/basestyles.css" />
+    
+    
 </head>
 
 
 <body>
+    <header>
+        <nav>
+            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white;">SentiMatch</a></div>
+            <input type="checkbox" id="nav-toggle">
+            <ul class="menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'camera_input' %}">Camera</a></li>
+            </ul>
+        </nav>
+    </header>
     <div id="heading">
-    <h1>Emotion Statistics</h1></div>
+    <h1>Emotion Statistics</h1>
+    </div>
+
     <div class="container">
-        <div id="piechart" style="width: 1000px; height: 500px;"></div>
-        <div id="results">
-            <div id="emotionStats"></div>
+        <div id="piechart" style="width: 990px; height: 600px;"></div>
+        <div class = "results" id="results">
+            <p id="emotionStats"></p>
         </div>
         
     </div>
-    <form id="updateStatsForm" method="POST" action="{% url 'update_statistics' %}">
-        {% csrf_token %}
-        <input type="hidden" name="happy_percentage" id="happy_percentage" value="">
-        <input type="hidden" name="sad_percentage" id="sad_percentage" value="">
-        <input type="hidden" name="neutral_percentage" id="neutral_percentage" value="">
-        <input type="hidden" name="angry_percentage" id="angry_percentage" value="">
-        <input type="hidden" name="disgusted_percentage" id="disgusted_percentage" value="">
-        <input type="hidden" name="fearful_percentage" id="fearful_percentage" value="">
-        <input type="hidden" name="surprised_percentage" id="surprised_percentage" value="">
-        
-        <button type="submit" id="updateStatsButton">Update Statistics</button>
-    </form>
+        <div class = "hidden_form">
+        <form id="updateStatsForm" method="POST" action="{% url 'update_statistics' %}">
+            {% csrf_token %}
+            <input type="hidden" name="happy_percentage" id="happy_percentage" value="">
+            <input type="hidden" name="sad_percentage" id="sad_percentage" value="">
+            <input type="hidden" name="neutral_percentage" id="neutral_percentage" value="">
+            <input type="hidden" name="angry_percentage" id="angry_percentage" value="">
+            <input type="hidden" name="disgusted_percentage" id="disgusted_percentage" value="">
+            <input type="hidden" name="fearful_percentage" id="fearful_percentage" value="">
+            <input type="hidden" name="surprised_percentage" id="surprised_percentage" value="">
+            
+            <button class="btn btn-primary btn-rounded" type="submit" id="updateStatsButton">Save Results</button>
+        </form>
+
+        <button type="button" class="btn btn-primary btn-floating">
+            <i class="fas fa-download"></i>
+        </button>
+    </div>
+
+    <footer class= "sticky-footer">
+        &copy; 2023 Emotion Detector
+    </footer>
     
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
