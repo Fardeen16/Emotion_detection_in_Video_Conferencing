@@ -7,6 +7,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic.edit import CreateView
 from .forms import CreateUserForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .models import UserTable
+from django.http import JsonResponse
+
 
 
 # Create your views here.
@@ -56,7 +60,8 @@ def loginPage(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            redirect('camera_input')
+            request.session['username'] = user.username
+            return redirect('camera_input')
         else:
             messages.info(request, "Username or password is incorrect")
             
@@ -69,7 +74,60 @@ def logoutUser(request):
 
 
 def stats(request):
+    # if request.method == "POST":
+    #     return JsonResponse({'message': 'Statistics updated successfully.'})
     return render(request, 'stats.html')
+
+@login_required
+def results_saved(request):
+    if request.method == 'POST':
+        # Get the logged-in user
+        username = request.session.get('username')
+
+        # Get the updated statistics from the POST data
+        happy_percentage = request.POST.get('happy_percentage')
+        sad_percentage = request.POST.get('sad_percentage')
+        neutral_percentage = request.POST.get('neutral_percentage')
+        angry_percentage = request.POST.get('angry_percentage')
+        disgusted_percentage = request.POST.get('disgusted_percentage')
+        fearful_percentage = request.POST.get('fearful_percentage')
+        surprised_percentage = request.POST.get('surprised_percentage')
+        # Get other percentages in a similar way
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            user = None
+        
+        #user = User.objects.get(username=username)
+        #Update the UserTable entry
+        if user:
+        #user_table, created = UserTable.objects.get_or_create(username=user)
+        # user_table.happy = happy_percentage or 0.0
+        # user_table.sad = sad_percentage or 0.0
+        # user_table.angry = angry_percentage or 0.0
+        # user_table.disgusted = disgusted_percentage or 0.0
+        # user_table.neutral = neutral_percentage or 0.0
+        # user_table.surprised = surprised_percentage or 0.0
+        # user_table.fearful = fearful_percentage or 0.0
+        # # Update other percentages here
+        # user_table.save()
+            user_table = UserTable.objects.create(
+                username=user,
+                happy=happy_percentage or 0.0,
+                sad=sad_percentage or 0.0,
+                angry=angry_percentage or 0.0,
+                disgusted=disgusted_percentage or 0.0,
+                neutral=neutral_percentage or 0.0,
+                surprised=surprised_percentage or 0.0,
+                fearful=fearful_percentage or 0.0
+                # Set default values for other percentages here
+            )
+            user_table.save()
+
+        return JsonResponse({'message': 'Statistics updated successfully.'})
+
+    return JsonResponse({'message': 'Invalid request.'}, status=400)
 
 def camera_input(request):
     return render(request, 'camera.html')

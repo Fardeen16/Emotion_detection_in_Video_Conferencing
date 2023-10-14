@@ -4,8 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-class CustomUser(AbstractUser):
-    neutral = models.FloatField()
+class UserTable(models.Model):
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    neutral = models.FloatField(null=True)
     happy = models.FloatField()
     sad = models.FloatField()
     angry = models.FloatField()
@@ -13,4 +14,4 @@ class CustomUser(AbstractUser):
     surprised = models.FloatField()
     fearful = models.FloatField()
 
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = [username]
