@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Login Page</title>
     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="../static/js/animation.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
@@ -26,8 +28,7 @@
             background-color: rgba(94, 71, 101, 0.66); /* Adjust the alpha value for the overlay opacity */
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    
     <script src="../static/js/animation.js"></script>
 </head>
 
@@ -59,14 +60,18 @@
                     </form>
                     <form class="signup" name="signupForm" onsubmit="return validateSignupForm()" method="POST" action="{% url 'camera_input' %}">
                         {% csrf_token %}
-                        <input type="email" name="email" id="signEmail" placeholder="Email">
                         <input type="text" name="name" id="signName" placeholder="Username">
-                        <input type="password" name="password" id="signPassword" placeholder="Password"><br>
+                        <input type="email" name="email" id="signEmail" placeholder="Email">
+                        
+                        <input type="password" name="password1" id="signPassword" placeholder="Password">
+                        <input type="password" name="password2" id="signPassword" placeholder="Re-enter Password"><br>
                         <input type="submit" value="SignUp">
+
+                        
                     </form>
                 </div>
             </div>
         </div>
-        
+
     </div>
 </body>
