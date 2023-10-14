@@ -6,6 +6,6 @@ from .models import UserTable
 #admin.site.register()
 class UserTableAdmin(admin.ModelAdmin):
     # Customize the admin view for UserTable, if needed
-    pass
+    list_display= ['username', 'neutral','happy', 'sad','angry','disgusted','surprised', 'fearful']
 
 admin.site.register(UserTable, UserTableAdmin)
