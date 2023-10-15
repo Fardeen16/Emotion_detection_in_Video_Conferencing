@@ -12,8 +12,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import UserTable
 from django.http import JsonResponse
-
-
+from .utils import make_email
 
 # Create your views here.
 def home(request):
@@ -148,6 +147,13 @@ def camera_input(request):
 
 def analyze_emotion(request):
     return render(request, 'analyze_emotion.html')
+
+
+def send_email(request):
+    make_email()
+    #return render(request, 'stats.html')
+    return redirect('/')
+
 
 class CustomSignupView(CreateView):
     form_class = UserCreationForm()

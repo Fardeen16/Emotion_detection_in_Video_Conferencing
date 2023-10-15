@@ -13,5 +13,6 @@ urlpatterns = [
 
     path('stats/', views.stats, name='stats'),
     path('results_saved/',views.results_saved , name='update_statistics'),
+    path('send_email/', views.send_email, name='send_email')
     
 ]

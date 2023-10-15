@@ -7,7 +7,7 @@
     <title>Emotion Statistics</title>
     <link rel="stylesheet" href="../static/css/stats.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"> </script>
     
 </head>
 
@@ -27,13 +27,14 @@
     <h1>Emotion Statistics</h1>
     </div>
 
-    <div class="container">
+    <div id="container" class="container">
         <div id="piechart" style="width: 990px; height: 600px;"></div>
+
         <div class = "results" id="results">
             <p id="emotionStats"></p>
         </div>
-        
     </div>
+     
         <div class = "hidden_form">
         <form id="updateStatsForm" method="POST" action="{% url 'update_statistics' %}">
             {% csrf_token %}
@@ -52,7 +53,8 @@
             <i class="fas fa-download"></i>
         </button> {% endcomment %}
 
-        <button class="btn"><i class="fa fa-download"></i> Download</button>
+        <button class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Download</button>
+        <button><a href="{% url 'send_email' %}">BEWRAE, Dont Click, Work in progress</a></button>
     
         
     </div>
@@ -149,7 +151,29 @@
                 updateStatsForm.submit();
             });
         }
+        function generatePDF() {
+            const pieDiv = document.getElementById('piechart');
+            const resDiv = document.getElementById('results');
+            const containerDiv = document.createElement('div');
+            
+            containerDiv.appendChild(pieDiv.cloneNode(true));
+            containerDiv.appendChild(resDiv.cloneNode(true));
 
+            const elementToPrint = containerDiv;
+
+            var opt = {
+                margin: 1,
+                filename: 'myfile5.pdf',
+                html2canvas: { scale: 3 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf()
+                .set(opt)
+                .from(elementToPrint)
+                .save();
+        }
+        
         // Call the function to calculate and display statistics
         calculateEmotionStatistics();
     </script>
