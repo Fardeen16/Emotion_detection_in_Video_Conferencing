@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito:400,700,300); 
+
 *{
     margin: 0;
     padding: 0;
@@ -6,6 +8,107 @@
 body{
     min-height: 100%;
 }
+
+
+header {
+    background-color: #44004b;
+    color: white;
+    padding: 1% 0;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+nav {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 2vw;
+    font-weight: bold;
+    padding-left: 0.5%;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+}
+
+.menu li {
+    margin-right: 20px;
+}
+
+.menu li:last-child {
+    margin-right: 0.5%;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s;
+}
+
+.menu a:hover {
+    color: #ff9900;
+}
+
+/* Hamburger menu styles */
+#nav-toggle {
+    display: none;
+}
+
+.burger-menu {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+    position: absolute;
+    left: 10px;
+}
+
+.burger-menu span {
+    width: 25px;
+    height: 2px;
+    background-color: white;
+    margin: 3px 0;
+    display: block;
+}
+
+/* Responsive styles for navigation */
+@media (max-width: 768px) {
+    .burger-menu {
+        display:block;
+        position: relative; /* Adjust the position for small screens */
+    }
+
+    .menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background-color: #44004b;
+        z-index: 1;
+    }
+
+    .menu.active {
+        display: flex;
+    }
+
+    .menu li {
+        margin: 0;
+        text-align: center;
+        padding: 10px 0;
+    }
+}
+
+
 #heading{
     padding: 20px;
 
@@ -58,6 +161,21 @@ body{
 
 }
 
+/* Style buttons */
+.btn {
+    
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 20px;
+}
+  
+  /* Darker background on mouse-over */
+.btn:hover {
+background-color: RoyalBlue;
+}
 
 footer {
     background-color: #44004b;
@@ -71,4 +189,5 @@ footer {
     font-size: 0.75rem;
     /*z-index: 1;  Ensure the footer is above other elements */
 }
+
 

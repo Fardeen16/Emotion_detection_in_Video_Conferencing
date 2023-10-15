@@ -138,7 +138,8 @@ def results_saved(request):
             )
             user_table.save()
 
-        return JsonResponse({'message': 'Statistics updated successfully.'})
+        #return JsonResponse({'message': 'Statistics updated successfully.'})
+        return render(request, 'resultsSaved.html')
 
     return JsonResponse({'message': 'Invalid request.'}, status=400)
 
