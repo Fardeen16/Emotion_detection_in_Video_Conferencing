@@ -141,5 +141,4 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "emotionandvoicedetection@gmail.com"
-EMAIL_HOST_PASSWORD = "whocaresaboutthis"
-EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = 'qfuk rkpa suxo ehkf'   #"whocaresaboutthis"

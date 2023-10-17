@@ -178,7 +178,7 @@ nav .menu a {
         const canvas = document.getElementById('overlay');
         const expressionDiv = document.getElementById('expression');
         const suggestionDiv = document.getElementById('suggestion');
-        const analyticsDiv = document.getElementById('analytics');
+        /*const analyticsDiv = document.getElementById('analytics');*/
         
 
         var happy= 0;
@@ -241,12 +241,13 @@ nav .menu a {
                     console.log(dominantExpression);
                     analyticsDiv.textContent = statistics(dominantExpression);
                     
-                } else {
-                    // No faces detected, clear the canvas and display a message
-                    expressionDiv.textContent = 'No faces detected';
-                    expressionDiv.style.color = 'black';
-                    suggestionDiv.textContent = '';
                 }
+                //else {
+                    // No faces detected, clear the canvas and display a message
+                //   expressionDiv.textContent = 'No faces detected';
+                //  expressionDiv.style.color = 'black';
+                //    suggestionDiv.textContent = '';
+                //}
                 //const viewStatsButton = document.getElementById('viewStatsButton');
                 //viewStatsButton.addEventListener('click', redirectToStatsPage);
 
@@ -363,10 +364,10 @@ nav .menu a {
             localStorage.setItem('emotionData', JSON.stringify(emotionData));
         
             // Calculate percentages and return output
-            const output = `happy: ${((happy / total) * 100).toFixed(2)}%, sad: ${((sad / total) * 100).toFixed(2)}%, \
-                angry: ${((angry / total) * 100).toFixed(2)}%, disgusted: ${((disgusted / total) * 100).toFixed(2)}%, \
-                neutral: ${((neutral / total) * 100).toFixed(2)}%, surprised: ${((surprised / total) * 100).toFixed(2)}%, \
-                fearful: ${((fearful / total) * 100).toFixed(2)}%`;
+            //const output = `happy: ${((happy / total) * 100).toFixed(2)}%, sad: ${((sad / total) * 100).toFixed(2)}%, \
+                //angry: ${((angry / total) * 100).toFixed(2)}%, disgusted: ${((disgusted / total) * 100).toFixed(2)}%, \
+                //neutral: ${((neutral / total) * 100).toFixed(2)}%, surprised: ${((surprised / total) * 100).toFixed(2)}%, \
+                //fearful: ${((fearful / total) * 100).toFixed(2)}%`;
         
             return output;
         }

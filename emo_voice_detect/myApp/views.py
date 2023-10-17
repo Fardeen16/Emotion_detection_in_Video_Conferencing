@@ -18,17 +18,17 @@ from .utils import make_email
 def home(request):
     return render(request, 'base.html')
 
-def register_old(request):
-    form=CreateUserForm()
-    if request.method=='POST':
-        form=CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user) 
-            return redirect('login')
-    context = {'form':form}
-    return render(request, 'register.html', context)
+# def register_old(request):
+#     form=CreateUserForm()
+#     if request.method=='POST':
+#         form=CreateUserForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             user = form.cleaned_data.get('username')
+#             messages.success(request, 'Account was created for ' + user) 
+#             return redirect('login')
+#     context = {'form':form}
+#     return render(request, 'register.html', context)
 
 #def loginPage(request):
 def register(request):
@@ -48,23 +48,25 @@ def register(request):
     return render(request, 'register.html', context)
 
 
-def login_old(request):
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            redirect('camera_input')
-        else:
-            messages.info(request, "Username or password is incorrect")
+# def login_old(request):
+#     if request.method == "POST":
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         user = authenticate(request, username=username, password=password)
+#         if user is not None:
+#             login(request, user)
+#             redirect('camera_input')
+#         else:
+#             messages.info(request, "Username or password is incorrect")
             
-    context = {}
-    return render(request, 'login.html', context)
+#     context = {}
+#     return render(request, 'login.html', context)
 
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+
 def loginPage(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -73,16 +75,13 @@ def loginPage(request):
         if user is not None:
             login(request, user)
             request.session['username'] = user.username
+            request.session['email'] = user.email 
             return redirect('camera_input')
         else:
             messages.info(request, "Username or password is incorrect")
             
     context = {}
     return render(request, 'login.html', context)
-
-def logoutUser(request):
-    logout(request)
-    return redirect('login')
 
 
 def stats(request):
@@ -150,9 +149,14 @@ def analyze_emotion(request):
 
 
 def send_email(request):
-    make_email()
-    #return render(request, 'stats.html')
-    return redirect('/')
+    usermail= request.session.get('email')
+    emailList = []
+    finalMail = "'"+usermail+"'"
+    emailList.append(usermail)
+    make_email(emailList)
+    return render(request, 'stats.html')
+    #return HttpResponse("Email was sent!")
+    #return redirect('/')
 
 
 class CustomSignupView(CreateView):

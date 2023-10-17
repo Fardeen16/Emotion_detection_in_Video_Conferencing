@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="../static/css/stats.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"> </script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
+
     
 </head>
 
@@ -53,13 +59,22 @@
             <i class="fas fa-download"></i>
         </button> {% endcomment %}
 
-        <button class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Download</button>
-        <button><a href="{% url 'send_email' %}">BEWRAE, Dont Click, Work in progress</a></button>
+       
+
+        <div class="container text-center">
+            <button class="btn" onclick="generatePDF()">
+                <i class="fa fa-download"></i> Download
+            </button>
+            <button onclick="generateAlert()"><a href="{% url 'send_email' %}">Send Email</a></button>
+        </div>
+
+        
     
         
     </div>
 
     <footer class= "sticky-footer">
+        
         &copy; 2023 Emotion Detector
     </footer>
     <style>
@@ -112,7 +127,8 @@
             var data = google.visualization.arrayToDataTable(statsArray);
 
             var options = {
-                title: 'Your Total Activity'
+                title: 'Your Total Activity',
+                is3D: true,
             };
             var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
@@ -172,6 +188,30 @@
                 .set(opt)
                 .from(elementToPrint)
                 .save();
+            
+            $(".bootstrap-growl").remove()
+            $.bootstrapGrowl("It has been downloaded",{
+                type: "success",
+                offset: {from:"top", amount:400},
+                align:"center",
+                delay:3000,
+                allow_dismiss:true,
+                stackup_spacing: 10
+            });
+        }
+        //this is the lines of code which can generate the pop up message,
+        //if want to add this for other buttons, then create a new function with these lines of code
+        //and call the function by onclick methods of that button
+        function generateAlert(){
+            $(".bootstrap-growl").remove()
+            $.bootstrapGrowl("Email has been sent successfully",{
+                type: "success",
+                offset: {from:"top", amount:400},
+                align:"center",
+                delay:3000,
+                allow_dismiss:true,
+                stackup_spacing: 10
+            });
         }
         
         // Call the function to calculate and display statistics
