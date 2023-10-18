@@ -4,11 +4,11 @@ import os
 import magic
 
 def make_email(recipient_list):
-    file_path = "C:/Users/farde/Downloads/_myfile5.pdf"   
+    file_path = "C:/Users/Khushi/Downloads/myfile5.pdf"
     subject = "Testing PDF Reports"
     message = "Just a testing mail for pdf"
     from_email = settings.EMAIL_HOST_USER
-    #recipient_list = ["fardeen.mk@somaiya.edu"]#, "khushi.kenia@somaiya.edu", "psangoi@somaiya.edu", "gaurav.chawla@somaiay.edu"]
+    #recipient_list = ["khushi.kenia@somaiya.edu"]#, "khushi.kenia@somaiya.edu", "psangoi@somaiya.edu", "gaurav.chawla@somaiay.edu"]
     
     with open(file_path, 'rb') as file:
         file_content = file.read()

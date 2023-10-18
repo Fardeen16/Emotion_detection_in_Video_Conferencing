@@ -53,10 +53,10 @@
         </form>
 
         <div class="container text-center">
-            <button class="btn" onclick="generatePDF()" style="margin-right: 10px;">
+            <button class="btn" onclick="generatePDF()" style="margin-right: 10px; top:10%;">
                 <i class="fa fa-download" style="align-items: center;"></i> Download
             </button>
-            <button class="btn btn-success send-email-button" onclick="generateAlert()" style="margin-left: 10px;">
+            <button class="btn btn-success send-email-button" onclick="generateAlert()" style="margin-left: 10px; top:10%;">
                 <i class="fa fa-envelope" style=" color: white !important;">
                 <a href="{% url 'send_email' %}" style="font-family:'Roboto', sans-serif; vertical-align: middle; color: white;">Send Email</a>
                 </i>
@@ -182,7 +182,7 @@
                 .save();
             
             $(".bootstrap-growl").remove()
-            $.bootstrapGrowl("It has been downloaded",{
+            $.bootstrapGrowl("Analytics have been downloaded",{
                 type: "success",
                 offset: {from:"top", amount:400},
                 align:"center",

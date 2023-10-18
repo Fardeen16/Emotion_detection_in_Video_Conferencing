@@ -14,7 +14,7 @@ body {
 header {
     background-color: #44004b;
     color: white;
-    padding: 0;
+    padding: 4px 0;
     position: relative;
     top: 0;
     left: 0;
@@ -75,7 +75,34 @@ nav {
     margin: 3px 0;
     display: block;
 }
+/* Responsive styles for navigation */
+@media (max-width: 768px) {
+    .burger-menu {
+        display:block;
+        position: relative; /* Adjust the position for small screens */
+    }
 
+    .menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background-color: #44004b;
+        z-index: 1;
+    }
+
+    .menu.active {
+        display: flex;
+    }
+
+    .menu li {
+        margin: 0;
+        text-align: center;
+        padding: 10px 0;
+    }
+}
 
 .sticky-footer{
     background-color: #44004b;
@@ -101,11 +128,11 @@ nav {
     text-align: center;
 }
 .container{
-    display:block;
+    display:flex;
     flex-direction: column;
     align-items: center;
     max-width: 90%;
-    margin-top: 30%; /* Adjust as needed */
+    margin-top: 20px; /* Adjust as needed */
     margin-bottom: 0%;
     position: relative;
     flex-wrap: nowrap;
@@ -137,8 +164,9 @@ nav {
     font-family: sans-serif;
     font-size: 30px;
     position: relative;
-    top: 50%;
+    top: 20%;
     transform: translateY(-50%);
+    height:30px;
 }
 .emotion-label, .percentage-value{
     font-family: sans-serif;
@@ -167,13 +195,11 @@ background-color: RoyalBlue;
 }
 .fa-envelope{
     color: white;
-    padding: 12px 30px;
     font-size: 20px;
     border: none;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    margin-left: 50px;
 }
 .fa-envelope:hover{
     background-color: RoyalBlue;
@@ -210,19 +236,18 @@ background-color: RoyalBlue;
     /* padding: 20px, 20px, 20px, 20px; */
     margin: 0;
     position: absolute;
-    top: 50%;
+    top: 10%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     background-color: #44004b;
     color: white;
     border-radius: 4px;
-    padding: 16px 32px !important;
+    padding: 10px 24px !important;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px !important;
     transition-duration: 0.4s;
     cursor: pointer;
 
