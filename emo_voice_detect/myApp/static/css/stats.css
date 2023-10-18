@@ -1,19 +1,20 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito:400,700,300); 
 
-*{
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
-
-body{
+body {
+    font-family: sans-serif;
+    background-color: #f0f0f0;
     min-height: 100%;
-}
 
+}
 
 header {
     background-color: #44004b;
     color: white;
-    padding: 1% 0;
+    padding: 0;
     position: relative;
     top: 0;
     left: 0;
@@ -44,17 +45,13 @@ nav {
 }
 
 .menu li:last-child {
-    margin-right: 0.5%;
+    padding-right: 0.5%;
 }
 
 .menu a {
     text-decoration: none;
     color: white;
     transition: color 0.3s;
-}
-
-.menu a:hover {
-    color: #ff9900;
 }
 
 /* Hamburger menu styles */
@@ -79,50 +76,37 @@ nav {
     display: block;
 }
 
-/* Responsive styles for navigation */
-@media (max-width: 768px) {
-    .burger-menu {
-        display:block;
-        position: relative; /* Adjust the position for small screens */
-    }
 
-    .menu {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 50px;
-        left: 0;
-        width: 100%;
-        background-color: #44004b;
-        z-index: 1;
-    }
-
-    .menu.active {
-        display: flex;
-    }
-
-    .menu li {
-        margin: 0;
-        text-align: center;
-        padding: 10px 0;
-    }
+.sticky-footer{
+    background-color: #44004b;
+    color: white;
+    text-align: center;
+    padding: 0.8%;
+    padding-bottom: 0.8%;
+    position: sticky !important;
+    bottom: 0;
+    top: 100%;
+    font-size: 0.75rem;
+    z-index: 1; 
 }
 
 
 #heading{
     padding: 20px;
+    margin-bottom: 0%;
 
 }
 #heading h1{
-    font-size: 50px;
+    font-size: 8px;
     text-align: center;
 }
 .container{
-    display: flex;
+    display:block;
     flex-direction: column;
     align-items: center;
     max-width: 90%;
-    margin-top: 60px; /* Adjust as needed */
+    margin-top: 30%; /* Adjust as needed */
+    margin-bottom: 0%;
     position: relative;
     flex-wrap: nowrap;
     align-content: center;
@@ -156,11 +140,15 @@ nav {
     top: 50%;
     transform: translateY(-50%);
 }
-
-.updateStatsButton{
-
+.emotion-label, .percentage-value{
+    font-family: sans-serif;
+    font-size: 15px;
+    align-content: justify;
 }
-
+.percentage-value{
+    font-weight: 100;
+    font-size: 26px;
+}
 /* Style buttons */
 .btn {
     
@@ -170,16 +158,33 @@ nav {
     padding: 12px 30px;
     cursor: pointer;
     font-size: 20px;
+    margin-right: 50px;
 }
   
   /* Darker background on mouse-over */
 .btn:hover {
 background-color: RoyalBlue;
 }
-
+.fa-envelope{
+    color: white;
+    padding: 12px 30px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-left: 50px;
+}
+.fa-envelope:hover{
+    background-color: RoyalBlue;
+    color:black;
+}
+.btn-success{
+    color: white !important;
+}
 .alert {
     padding: 20px;
-    background-color: #f44336; /* Red */
+    background-color: #00d200; /* Red */
     color: white;
     margin-bottom: 15px;
   }
@@ -201,17 +206,77 @@ background-color: RoyalBlue;
     color: black;
   }
 
-footer {
+  .updateStatsButton{
+    /* padding: 20px, 20px, 20px, 20px; */
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     background-color: #44004b;
     color: white;
+    border-radius: 4px;
+    padding: 16px 32px !important;
     text-align: center;
-    /* padding: 0.8%; */
-    /* padding-bottom: 0.8%; */
-    position: sticky;
-    bottom: 0;
-    /* top: 100%; */
-    font-size: 0.75rem;
-    /*z-index: 1;  Ensure the footer is above other elements */
-}
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px !important;
+    transition-duration: 0.4s;
+    cursor: pointer;
 
+  }
+  .updateStatsButton:hover{
+    background-color:white;
+    color: #44004b;
+    
+  }
+  #updateStatsForm{
+    /* align-items: center;
+    align-content: center; */
+    height: 100px;
+    position: relative;
+
+  }
+ 
+  .SendEmail{
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  .SendEmail span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .SendEmail span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .SendEmail:hover span {
+    padding-right: 25px;
+  }
+  
+  .SendEmail:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
 

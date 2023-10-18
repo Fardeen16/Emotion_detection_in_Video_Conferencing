@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camera Input</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Roboto">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../static/js/face-api.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/css/basestyles.css">
 </head>
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: sans-serif;
         background-color: #f0f0f0;
         margin: 0;
         display: flex;
@@ -53,9 +54,10 @@
         height: 800px;
     }
     video {
-        width: 920px;
-        height: 800px;
+        width: 900px;
+        height: 700px;
         transform: scaleX(-1);
+        margin-left: 20%;
     }
 
     .results {
@@ -66,12 +68,12 @@
         position: absolute; /* Position the results div */
         margin-right: 300px;
         text-align: center;
-        font-family: sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 30px;
         position: relative;
         /*top: 10%; */
         transform: translateY(-10%);
-        left: calc(60% + 100px); /* Position it to the left of the video with 200px space */
+        left: calc(50% + 100px); /* Position it to the left of the video with 200px space */
     }
 
     
@@ -106,7 +108,16 @@
     }
 
     nav {
-    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    font-size: 2vw;
+    font-weight: bold;
+    padding-left: 0.5%;
 }
 
 nav .nav-container {
@@ -126,14 +137,17 @@ nav .menu {
 }
 
 nav .menu li {
-    margin: 0;
+    margin-right: 8px;
     padding: 0;
 }
 
 nav .menu a {
     text-decoration: none;
     color: white;
-    font-weight: bold;
+    transition: color 0.3s;
+}
+.menu li:last-child {
+    padding-right: 0.5%;
 }
 
 </style>
@@ -142,11 +156,11 @@ nav .menu a {
 <body>
     <header>
         <nav>
-            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white;">SentiMatch</a></div>
+            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white; font-family: sans-serif;">SentiMatch</a></div>
             <input type="checkbox" id="nav-toggle">
             <ul class="menu">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'camera_input' %}">Camera</a></li>
+                <li><a href="{% url 'home' %}" style="font-family: 'Roboto', sans-serif;">Home</a></li>
+                <li><a href="{% url 'camera_input' %}" style="font-family: 'Roboto', sans-serif;">Camera</a></li>
             </ul>
         </nav>
     </header>

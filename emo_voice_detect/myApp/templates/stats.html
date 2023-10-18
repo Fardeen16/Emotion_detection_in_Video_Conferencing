@@ -5,36 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotion Statistics</title>
-    <link rel="stylesheet" href="../static/css/stats.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"> </script>
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
-
-    
+    <link rel="stylesheet" href="../static/css/stats.css" />
 </head>
 
 
 <body>
     <header>
         <nav>
-            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white;">SentiMatch</a></div>
+            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white;" style="font-family: sans-serif;">SentiMatch</a></div>
             <input type="checkbox" id="nav-toggle">
             <ul class="menu">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'camera_input' %}">Camera</a></li>
+                <li><a href="{% url 'home' %}" style="font-family:'Roboto', sans-serif;">Home</a></li>
+                <li><a href="{% url 'camera_input' %}" style="font-family:'Roboto', sans-serif;">Camera</a></li>
             </ul>
         </nav>
     </header>
     <div id="heading">
-    <h1>Emotion Statistics</h1>
+    <h1 style="font-family: sans-serif; font-size: 40px; font-weight: bold;">Emotion Statistics</h1>
     </div>
 
     <div id="container" class="container">
-        <div id="piechart" style="width: 990px; height: 600px;"></div>
+        <div id="piechart" style="width: 700px; height: 400px;"></div>
 
         <div class = "results" id="results">
             <p id="emotionStats"></p>
@@ -52,25 +49,19 @@
             <input type="hidden" name="fearful_percentage" id="fearful_percentage" value="">
             <input type="hidden" name="surprised_percentage" id="surprised_percentage" value="">
             
-            <button class="updateStatsButton" type="submit" id="updateStatsButton">Save Results</button>
+            <button class="updateStatsButton" type="submit" id="updateStatsButton" style="align-content: center;">Save Results</button>
         </form>
 
-        {% comment %} <button type="button" class="btn btn-primary btn-floating">
-            <i class="fas fa-download"></i>
-        </button> {% endcomment %}
-
-       
-
         <div class="container text-center">
-            <button class="btn" onclick="generatePDF()">
-                <i class="fa fa-download"></i> Download
+            <button class="btn" onclick="generatePDF()" style="margin-right: 10px;">
+                <i class="fa fa-download" style="align-items: center;"></i> Download
             </button>
-            <button onclick="generateAlert()"><a href="{% url 'send_email' %}">Send Email</a></button>
+            <button class="btn btn-success send-email-button" onclick="generateAlert()" style="margin-left: 10px;">
+                <i class="fa fa-envelope" style=" color: white !important;">
+                <a href="{% url 'send_email' %}" style="font-family:'Roboto', sans-serif; vertical-align: middle; color: white;">Send Email</a>
+                </i>
+            </button>
         </div>
-
-        
-    
-        
     </div>
 
     <footer class= "sticky-footer">
@@ -118,7 +109,7 @@
                         //percentage = 0;
                     //}
 
-                    emotionStatsHtml += `<p>${emotion}: ${percentage}%</p>`;
+                    emotionStatsHtml += `<p class="emotion-label">${emotion}: <span class="percentage-value">${percentage}%</span></p>`;
                     let temp_array = [emotion, parseInt(percentage)];
                     statsArray.push(temp_array);
                     console.log(statsArray)
@@ -129,6 +120,7 @@
             var options = {
                 title: 'Your Total Activity',
                 is3D: true,
+
             };
             var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
@@ -216,93 +208,8 @@
         
         // Call the function to calculate and display statistics
         calculateEmotionStatistics();
+
     </script>
 </body>
 
 </html>
-{% comment %} <body>
-    <div id="heading">
-        <h1>Emotion Statistics</h1>
-    </div>
-    <div class="container">
-        <div id="piechart" style="width: 1000px; height: 500px;"></div>
-        <div id="results">
-            <div id="emotionStats"></div>
-        </div>
-    </div>
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script>
-        google.charts.load('current', { 'packages': ['corechart'] });
-        google.charts.setOnLoadCallback(calculateEmotionStatistics);
-
-        function calculateEmotionStatistics() {
-            const emotionData = JSON.parse(localStorage.getItem('emotionData')) || {};
-            let emotionStatsHtml = '';
-            let statsArray = [['Emotion', 'Percentage']];
-            const total = Object.values(emotionData).reduce((sum, value) => sum + value, 0);
-
-            for (const emotion in emotionData) {
-                if (emotionData.hasOwnProperty(emotion)) {
-                    const count = emotionData[emotion];
-                    const percentage = ((count / total) * 100).toFixed(2);
-                    emotionStatsHtml += `<p>${emotion}: ${percentage}%</p>`;
-                    let temp_array = [emotion, parseInt(percentage)];
-                    statsArray.push(temp_array);
-                }
-            }
-
-            var data = google.visualization.arrayToDataTable(statsArray);
-            var options = {
-                title: 'Your Total Activity'
-            };
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-            chart.draw(data, options);
-
-            const emotionStatsDiv = document.getElementById('emotionStats');
-            emotionStatsDiv.innerHTML = emotionStatsHtml;
-            
-        
-
-        
-            const happyPercentage = statsArray[0][1];
-            const sadPercentage = statsArray[1][1];
-            const angryPercentage = statsArray[2][1];
-            const disgustedPercentage = statsArray[3][1];
-            const neutralPercentage = statsArray[4][1];
-            const surprisedPercentage = statsArray[5][1];
-            const fearfulPercentage = statsArray[6][1];
-
-
-            // Display the statistics
-            //document.getElementById('happy_percentage').textContent = `Happy: ${happyPercentage}%`;
-            //document.getElementById('sad_percentage').textContent = `Sad: ${sadPercentage}%`;
-
-            // Send an AJAX request to update statistics
-            fetch('/update_statistics/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken'),
-                },
-                body: JSON.stringify({
-                    happy_percentage: happyPercentage,
-                    sad_percentage: sadPercentage,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle the response (e.g., show a success message)
-                console.log(data.message);
-            })
-            .catch(error => {
-                // Handle errors (e.g., show an error message)
-                console.error('Error:', error);
-            });
-            }
-
-        calculateEmotionStatistics();
-    </script>
-</body> {% endcomment %}
-
-

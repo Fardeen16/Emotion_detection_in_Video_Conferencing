@@ -1,6 +1,93 @@
 <!DOCTYPE html>
 <html>
-    
-<h1>The results hve been saved successfully</h1>
+<head>
+    <title>Success Page</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"> </script>
+    <style>
+        body {
+            font-family: 'Roboto' sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
+        .card {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            border-color: #44004b;
+            padding-top: 20px;
+            padding-left: 40px;
+            padding-right: 40px;
+            padding-bottom: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .btn {
+            background-color:#44004b;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color:#37003d;
+        }
+        .h{
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1 style="font-family: sans-serif;">Your results have been saved successfully</h1>
+        <!-- <button class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Download</button> -->
+        <button class="h">
+            <a href="{% url 'home' %}" class="home" style="font-size: 25px; text-align: center; margin-top: 200px; color: #44004b;" style="font-family: 'Roboto', sans-serif;">Go back to home</a>
+        </button>
+    </div>
+    <!-- <div class="h">
+        <p><a href="{% url 'home' %}" class="home" style="font-size: 25px; text-align: center; margin-top: 200px; color: #44004b;" style="font-family: 'Roboto', sans-serif;">Go back to home</a>
+        </p>
+    </div> -->
+    <script>
+        function generatePDF() {
+            const pieDiv = document.getElementById('piechart');
+            const resDiv = document.getElementById('results');
+            const containerDiv = document.createElement('div');
+            
+            containerDiv.appendChild(pieDiv.cloneNode(true));
+            containerDiv.appendChild(resDiv.cloneNode(true));
+
+            const elementToPrint = containerDiv;
+
+            var opt = {
+                margin: 1,
+                filename: 'myfile5.pdf',
+                html2canvas: { scale: 3 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf()
+                .set(opt)
+                .from(elementToPrint)
+                .save();
+        }
+    </script>
+    
+
+</body>
 </html>

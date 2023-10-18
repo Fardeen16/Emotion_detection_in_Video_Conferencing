@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Roboto|Crimson Text|Tai Heritage Pro">
     <link rel="stylesheet" type="text/css" href="../static/css/basestyles.css">
     <title>SentiMatch</title>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white;">SentiMatch</a></div>
+            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white; font-family: sans-serif;">SentiMatch</a></div>
             <input type="checkbox" id="nav-toggle">
             <!-- <label for="nav-toggle" class="burger-menu">
                 <span></span>
@@ -18,13 +19,13 @@
                 <span></span>
             </label> -->
             <ul class="menu">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'camera_input' %}">Camera</a></li>
+                <li><a href="{% url 'home' %}" style="font-family: 'Roboto', sans-serif;">Home</a></li>
+                <li><a href="{% url 'login' %}" style="font-family: 'Roboto', sans-serif;">Login</a></li>
             </ul>
         </nav>
     </header>
 
-    <div class="monitor-emotions">Monitor Your Emotions</div>
+    <div class="monitor-emotions" style="font-family: sans-serif;">Monitor Your Emotions</div>
 
     <div class="carousel-container">
         <div class="carousel">
