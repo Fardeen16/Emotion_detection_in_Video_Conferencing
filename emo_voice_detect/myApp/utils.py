@@ -5,8 +5,8 @@ import magic
 
 def make_email(recipient_list):
     file_path = "C:/Users/Khushi/Downloads/myfile5.pdf"
-    subject = "Testing PDF Reports"
-    message = "Just a testing mail for pdf"
+    subject = "PDF Reports"
+    message = "PFA your analytics for this session"
     from_email = settings.EMAIL_HOST_USER
     #recipient_list = ["khushi.kenia@somaiya.edu"]#, "khushi.kenia@somaiya.edu", "psangoi@somaiya.edu", "gaurav.chawla@somaiay.edu"]
     

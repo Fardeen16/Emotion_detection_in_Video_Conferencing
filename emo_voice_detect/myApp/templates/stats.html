@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -183,6 +183,222 @@
             
             $(".bootstrap-growl").remove()
             $.bootstrapGrowl("Analytics have been downloaded",{
+                type: "success",
+                offset: {from:"top", amount:400},
+                align:"center",
+                delay:3000,
+                allow_dismiss:true,
+                stackup_spacing: 10
+            });
+        }
+        //this is the lines of code which can generate the pop up message,
+        //if want to add this for other buttons, then create a new function with these lines of code
+        //and call the function by onclick methods of that button
+        function generateAlert(){
+            $(".bootstrap-growl").remove()
+            $.bootstrapGrowl("Email has been sent successfully",{
+                type: "success",
+                offset: {from:"top", amount:400},
+                align:"center",
+                delay:3000,
+                allow_dismiss:true,
+                stackup_spacing: 10
+            });
+        }
+        
+        // Call the function to calculate and display statistics
+        calculateEmotionStatistics();
+
+    </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Statistics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"> </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
+    <link rel="stylesheet" href="../static/css/stats.css" />
+</head>
+
+
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white;" style="font-family: sans-serif;">SentiMatch</a></div>
+            <input type="checkbox" id="nav-toggle">
+            <ul class="menu">
+                <li><a href="{% url 'home' %}" style="font-family:'Roboto', sans-serif;">Home</a></li>
+                <li><a href="{% url 'camera_input' %}" style="font-family:'Roboto', sans-serif;">Camera</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="heading">
+    <h1 style="font-family: sans-serif; font-size: 40px; font-weight: bold;">Emotion Statistics</h1>
+    </div>
+
+    <div id="container" class="container">
+        <div id="piechart" style="width: 700px; height: 400px;"></div>
+
+        <div class = "results" id="results">
+            <p id="emotionStats"></p>
+        </div>
+    </div>
+     
+        <div class = "hidden_form">
+        <form id="updateStatsForm" method="POST" action="{% url 'update_statistics' %}">
+            {% csrf_token %}
+            <input type="hidden" name="happy_percentage" id="happy_percentage" value="">
+            <input type="hidden" name="sad_percentage" id="sad_percentage" value="">
+            <input type="hidden" name="neutral_percentage" id="neutral_percentage" value="">
+            <input type="hidden" name="angry_percentage" id="angry_percentage" value="">
+            <input type="hidden" name="disgusted_percentage" id="disgusted_percentage" value="">
+            <input type="hidden" name="fearful_percentage" id="fearful_percentage" value="">
+            <input type="hidden" name="surprised_percentage" id="surprised_percentage" value="">
+            
+            <button class="updateStatsButton" type="submit" id="updateStatsButton" style="align-content: center;">Save Results</button>
+        </form>
+
+        <div class="container text-center">
+            <button class="btn" onclick="generatePDF()" style="margin-right: 10px;">
+                <i class="fa fa-download" style="align-items: center;"></i> Download
+            </button>
+            <button class="btn btn-success send-email-button" onclick="generateAlert()" style="margin-left: 10px;">
+                <i class="fa fa-envelope" style=" color: white !important;">
+                <a href="{% url 'send_email' %}" style="font-family:'Roboto', sans-serif; vertical-align: middle; color: white;">Send Email</a>
+                </i>
+            </button>
+        </div>
+    </div>
+
+    <footer class= "sticky-footer">
+        
+        &copy; 2023 Emotion Detector
+    </footer>
+    <style>
+        .btn {
+          background-color: DodgerBlue;
+          border: none;
+          color: white;
+          padding: 12px 30px;
+          cursor: pointer;
+          font-size: 20px;
+        }
+        
+        /* Darker background on mouse-over */
+        .btn:hover {
+          background-color: RoyalBlue;
+        }
+        </style>
+    
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(calculateEmotionStatistics);
+        // Function to calculate emotion percentages and display statistics
+        function calculateEmotionStatistics() {
+            // Fetch emotion data from localStorage
+            const emotionData = JSON.parse(localStorage.getItem('emotionData')) || {};
+            console.log(emotionData)
+
+            // Calculate percentages and build the HTML content
+            let emotionStatsHtml = '';
+            let statsArray = [['Emotion', 'Percentage']];
+            const total = Object.values(emotionData).reduce((sum, value) => sum + value, 0);
+
+            for (const emotion in emotionData) {
+                if (emotionData.hasOwnProperty(emotion)) {
+                    const count = emotionData[emotion];
+                    const percentage = ((count / total) * 100).toFixed(2);
+
+                    //if (percentage < 2.50) {
+                        //percentage = 0;
+                    //}
+
+                    emotionStatsHtml += <p class="emotion-label">${emotion}: <span class="percentage-value">${percentage}%</span></p>;
+                    let temp_array = [emotion, parseInt(percentage)];
+                    statsArray.push(temp_array);
+                    console.log(statsArray)
+                }
+            }
+            var data = google.visualization.arrayToDataTable(statsArray);
+
+            var options = {
+                title: 'Your Total Activity',
+                is3D: true,
+
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+
+            // Display the statistics in the "emotionStats" div
+            const emotionStatsDiv = document.getElementById('emotionStats');
+            emotionStatsDiv.innerHTML = emotionStatsHtml;
+            console.log(document.getElementById('happy_percentage').value);
+
+            const happyPercentage = statsArray[1][1];
+            const sadPercentage = statsArray[2][1];
+            const angryPercentage = statsArray[3][1];
+            const disgustedPercentage = statsArray[4][1];
+            const neutralPercentage = statsArray[5][1];
+            const surprisedPercentage = statsArray[6][1];
+            const fearfulPercentage = statsArray[7][1];
+            
+            document.getElementById('happy_percentage').value = happyPercentage;
+            document.getElementById('sad_percentage').value = sadPercentage;
+            document.getElementById('angry_percentage').value = angryPercentage;
+            document.getElementById('disgusted_percentage').value = disgustedPercentage;
+            document.getElementById('neutral_percentage').value = neutralPercentage;
+            document.getElementById('surprised_percentage').value = surprisedPercentage;
+            document.getElementById('fearful_percentage').value = fearfulPercentage;
+            //document.getElementById('sad_percentage').value = sadPercentage;
+
+
+            console.log(document.getElementById('happy_percentage').value);
+
+            const updateStatsForm = document.getElementById('updateStatsForm');
+            const updateStatsButton = document.getElementById('updateStatsButton');
+
+            updateStatsButton.addEventListener('click', () => {
+                // Submit the form to update statistics
+                updateStatsForm.submit();
+            });
+        }
+        function generatePDF() {
+            const pieDiv = document.getElementById('piechart');
+            const resDiv = document.getElementById('results');
+            const containerDiv = document.createElement('div');
+            
+            containerDiv.appendChild(pieDiv.cloneNode(true));
+            containerDiv.appendChild(resDiv.cloneNode(true));
+
+            const elementToPrint = containerDiv;
+
+            var opt = {
+                margin: 1,
+                filename: 'myfile5.pdf',
+                html2canvas: { scale: 3 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf()
+                .set(opt)
+                .from(elementToPrint)
+                .save();
+            
+            $(".bootstrap-growl").remove()
+            $.bootstrapGrowl("It has been downloaded",{
                 type: "success",
                 offset: {from:"top", amount:400},
                 align:"center",
